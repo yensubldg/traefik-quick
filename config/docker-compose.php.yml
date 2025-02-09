@@ -1,0 +1,17 @@
+services:
+  php-app:
+    build:
+      context: ../php-app
+      dockerfile: Dockerfile
+    container_name: php-app
+    restart: always
+    volumes:
+      - ./php-app:/var/www/html
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.php-app.rule=Host(`yourdomain.com`)"
+      - "traefik.http.routers.php-app.entrypoints=websecure"
+      - "traefik.http.routers.php-app.tls.certresolver=letsencrypt"
+      - "traefik.http.services.php-app.loadbalancer.server.port=80"

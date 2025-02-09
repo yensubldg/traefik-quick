@@ -1,0 +1,15 @@
+services:
+  nextjs-app:
+    build:
+      context: ../nextjs-app
+      dockerfile: Dockerfile
+    container_name: nextjs-app
+    restart: always
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nextjs-app.rule=Host(`nextjs-app.yourdomain.com`)"
+      - "traefik.http.routers.nextjs-app.entrypoints=websecure"
+      - "traefik.http.routers.nextjs-app.tls.certresolver=letsencrypt"
+      - "traefik.http.services.nextjs-app.loadbalancer.server.port=3000"
